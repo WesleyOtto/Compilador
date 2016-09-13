@@ -1,0 +1,6 @@
+abacaxi = 2 * pera + 4364365
+
+tangerina = pera = goiaba = abacaxi = 3
+
+# fact -> ID [ = expr ] | DEC | ( expr )
+#
