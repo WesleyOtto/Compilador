@@ -1,0 +1,31 @@
+var x : int;
+y,a,b,c : float;
+
+procedure producao1 (var x,y,z : octal; a,b,c : hexa);
+begin
+end;
+
+function funcao1 (var x,y,z : octal; a,b,c : hexa) : int;
+begin
+end;
+
+function funcao2 (var x,y,z : float; a,b,c : int);
+begin
+end;
+
+begin
+	x = 2+3;
+	repeat
+		a = a + 1;
+		b = b + 0x2;
+		c = c + .2;
+		d = c + 02;
+	until f;
+
+	while 1 repeat
+	if 1 then
+	begin
+	x+1;
+	y+2
+	end
+end.

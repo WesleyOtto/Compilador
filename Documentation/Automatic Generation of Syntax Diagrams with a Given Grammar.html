@@ -1,0 +1,314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+  <meta name="description" content="Automatische Generierung von Syntaxdiagrammen" lang="de">
+  <meta name="description" content="automatic generation of syntax diagrams" lang="en">
+  <meta name="keywords" content="syntaxdiagramm grammatik bnf ebnf abnf" lang="de">
+  <meta name="keywords" content="syntax diagram grammar bnf ebnf abnf" lang="en">
+  <meta name="robots" content="index, nofollow">
+  <title>Automatic Generation of Syntax Diagrams with a Given Grammar</title>
+</head>
+<body>
+<h1>
+  <a href="#form">Generation of Syntax Diagrams</a>
+</h1>
+<!--"http://www-cgi.uni-regensburg.de/~brf09510/cgi-bin/syntax"-->
+<!--"http://www-cgi.uni-regensburg.de/~brf09510/cgi-bin/cgic106/cgipost"-->
+<p>
+The following form calls a program written in C++, that converts a grammar
+into syntax diagrams. The diagrams can be used for direct printing and inclusion
+in printable text files. Two examples for a grammar are given (a variant
+of the EBNF-grammar and the XPath-grammar).
+</p><p>
+The file-upload, some choices of the grammar type, the choice of the output
+format and comments are not yet implemented, so please don't use them.
+</p><p>
+If you find any errors, please contact one of us by email. Give information
+about the used grammar, the used options and a description of the error please.
+We don't store anything you input - more exactly, we delete any stored
+information daily at 2.14 GMT, so we can't trace back any error.
+</p><p>
+The program is submitted for public and free use. We can not assume any
+responsability for errors resulting from the use of this program. Neither
+is any liability assumed for any problems or damage resulting from the use
+of this program. We do not intend any commercial purpose.
+</p><p>
+The program uses the <a href="http://www.boutell.com/cgic/">cgic</a> and
+the <a href="http://www.boutell.com/gd/">gd</a> package from
+<a href="http://www.boutell.com/">Thomas Boutell</a> and indirectly the freeware
+products <a href="http://www.libpng.org/pub/png/">libpng.a</a>,
+<a href="http://www.ijg.org/">libjpeg.a</a>,
+<a href="http://www.gzip.org/zlib/">zlib</a> and
+<a href="http://www.freetype.org/">freetype</a>. The input filter for different
+grammars uses <a href="http://www.gnu.org/software/bison/manual/">bison</a>
+and <a href="http://www.gnu.org/software/flex/manual/">flex</a>. The program
+has been translated with
+<a href="http://www.gnu.org/software/gcc/onlinedocs/">Gnu C/C++</a>.
+</p><p>
+The <a href="http://www.w3.org/TR/xpath">XPath grammar </a>of the example
+was extracted from a publication of <a href="http://www.w3.org/">W3C</a>.
+The BNF grammar of the example is widely known and found in thousands of
+books and 5010 Web pages (google search on 4.Feb.2004)
+</p><p>
+If you have problems with the page, please contact me:
+</p><p>
+<img src="Automatic%20Generation%20of%20Syntax%20Diagrams%20with%20a%20Given%20Grammar_files/email.html" alt="spam preventioning email address" height="31" width="485">
+</p><p>
+Necessary german law court amendment only: Wir distanzieren uns
+selbstverständlich vom Inhalt aller verlinkten Seiten! (Sogar, wenn
+wir sie gut finden)
+</p><p>
+Last change: 1. Nov. 2011, F. Braun
+</p><p>
+  </p><hr>
+<p>
+</p><form action="http://homepages.uni-regensburg.de/~brf09510/cgi-bin/syntax#diagrams" method="POST">
+  <p>Give grammar-file for upload
+  <input name="Grammarfile" value="don't enter anything" disabled="disabled" type="file">
+  (not yet implemented)<br>
+  or enter grammar in EBNF like the example on the left (replacing the example
+  in the textarea of&nbsp;the <!--XPATH grammar written in EBNF):--> XPath
+  grammar written in EBNF): <br>
+  </p><table>
+    <tbody><tr>
+      <td><pre>syntax =  { rule } .
+rule =  identifier  ":"  expression ".".
+expression =  term  ( "|" term )*.
+term =  factor+ .
+factor =  identifier |
+                quoted_symbol |
+                "("  expression  ")" .
+identifier =  letter ( letter | digit ).
+quoted_symbol = "\""  any_character* "\"".
+</pre>
+      </td>
+      <td><textarea name="ssyntax" rows="12" cols="50">LocationPath            =    RelativeLocationPath
+                                   | AbsoluteLocationPath.
+AbsoluteLocationPath    =    '/' RelativeLocationPath?
+                                       | AbbreviatedAbsoluteLocationPath.
+RelativeLocationPath    =    Step
+                                   | RelativeLocationPath '/' Step
+                                   | AbbreviatedRelativeLocationPath.
+
+Step             =    AxisSpecifier NodeTest Predicate*
+                            | AbbreviatedStep.
+AxisSpecifier    =    AxisName '::'
+                            | AbbreviatedAxisSpecifier.
+
+AxisName    =    'ancestor'    | 'ancestor-or-self'
+                        | 'attribute'
+                        | 'child'
+                        | 'descendant'  | 'descendant-or-self'
+                        | 'following'   | 'following-sibling'
+                        | 'namespace'
+                        | 'parent'
+                        | 'preceding'   | 'preceding-sibling'
+                        | 'self'.
+NodeTest    =    WildcardName | NodeType '(' ')'
+                       | 'processing-instruction' '(' Literal ')'.
+Predicate        =    '[' PredicateExpr ']'.
+PredicateExpr    =    Expr.
+AbbreviatedAbsoluteLocationPath    =    '//'
+                   RelativeLocationPath.
+AbbreviatedRelativeLocationPath    =    RelativeLocationPath
+                                                 '//' Step.
+AbbreviatedStep                    =    '.' | '..'.
+AbbreviatedAxisSpecifier           =    '@'?.
+
+Expr           =    OrExpr.
+PrimaryExpr    =    VariableReference
+                           | '(' Expr ')'     | Literal
+                           | Number           | FunctionCall.
+FunctionCall    =    FunctionName '(' ( Argument ( ','
+                              Argument)*)? ')'.
+Argument        =    Expr.
+UnionExpr     =    PathExpr | UnionExpr '|' PathExpr.
+PathExpr      =    LocationPath
+                          | FilterExpr
+                          | FilterExpr '/' RelativeLocationPath
+                          | FilterExpr '//' RelativeLocationPath.
+FilterExpr    =    PrimaryExpr | FilterExpr Predicate.
+OrExpr            =    AndExpr | OrExpr 'or' AndExpr.
+AndExpr           =    EqualityExpr
+                  | AndExpr 'and' EqualityExpr.
+EqualityExpr      =    RelationalExpr
+                              | EqualityExpr '=' RelationalExpr
+                              | EqualityExpr '!=' RelationalExpr.
+RelationalExpr    =    AdditiveExpr
+                              | RelationalExpr '&lt;' AdditiveExpr
+                              | RelationalExpr '&gt;' AdditiveExpr
+                              | RelationalExpr '&lt;=' AdditiveExpr
+                              | RelationalExpr '&gt;=' AdditiveExpr.
+AdditiveExpr          =    MultiplicativeExpr
+                                  | AdditiveExpr '+' MultiplicativeExpr
+                                  | AdditiveExpr '-' MultiplicativeExpr.
+MultiplicativeExpr    =    UnaryExpr
+                                  | MultiplicativeExpr MultiplyOperator
+                                    UnaryExpr
+                                  | MultiplicativeExpr 'div' UnaryExpr
+                                  | MultiplicativeExpr 'mod' UnaryExpr.
+UnaryExpr             =    UnionExpr
+                                  | '-' UnaryExpr.
+ExprToken            =    '(' | ')' | '[' | ']' | '.' | '..' |
+                                   '@' | ',' | '::'
+                                 | WildcardName
+                                 | NodeType
+                                 | Operator
+                                 | FunctionName
+                                 | AxisName
+                                 | Literal
+                                 | Number
+                                 | VariableReference.
+
+Literal              =    '"' StringWithoutQuote '"'
+                                 | "'" StringWithoutApostrophe "'".
+Number               =    Digits ('.' Digits?)?
+                                 | '.' Digits.
+Operator             =    OperatorName
+                                 | MultiplyOperator
+                                 | '/'  | '//' | '|'  | '+' | '-' | '='
+                                 | '!=' | '&lt;'  | '&lt;=' | '&gt;' | '&gt;='.
+OperatorName         =    'and' | 'or' | 'mod' | 'div'.
+MultiplyOperator     =    '*'.
+FunctionName         =    QNameButNotNodeType.
+VariableReference    =    '$' QName.
+WildcardName         =    '*'
+                                 | NCName ':' '*'
+                                 | QName.
+NodeType             =    'comment'
+                                 | 'text'
+                                 | 'processing-instruction'
+                                 | 'node'.
+ExprWhitespace       =    S.
+</textarea></td>
+    </tr>
+  </tbody></table>
+  <p>
+  <a href="http://homepages.uni-regensburg.de/%7Ebrf09510/syntax/index.html">List of further examples</a>
+  </p><p>
+  </p><table border="">
+    <tbody><tr>
+      <th colspan="3"><a href="http://homepages.uni-regensburg.de/%7Ebrf09510/grammartypes.html">Grammar type</a> (only the grammar
+	types with links are implemented!)</th>
+      <th colspan="2">Output format</th>
+      <th colspan="2">Comments</th>
+    </tr>
+    <tr>
+      <td>
+	<input name="itype" value="bnf" checked="checked" type="radio"></td>
+      <td><a href="http://homepages.uni-regensburg.de/%7Ebrf09510/syntax/lazyebnf.ebnf.html">lazy BNF/EBNF</a></td>
+      <td>defined by <a href="http://homepages.uni-regensburg.de/%7Ebrf09510/syntax/backus_naur_wirth.html">Backus/Naur/Wirth et al</a></td>
+      <td>
+	<input disabled="disabled" name="otype" value="png" checked="checked" type="radio"></td>
+      <td>png</td>
+      <td>
+	<input disabled="disabled" name="comments" value="discard" checked="checked" type="radio"></td>
+      <td>Discard comments</td>
+    </tr>
+    <tr>
+      <td>
+	<input disabled="disabled" name="itype" value="sbnf" type="radio"></td>
+      <td>strict BNF</td>
+      <td>defined by Jim Backus and<br>
+	Pete Naur for Algol 60</td>
+      <td>
+	<input disabled="disabled" name="otype" value="jpg" type="radio"></td>
+      <td>jpeg</td>
+      <td>
+	<input disabled="disabled" name="comments" value="print" type="radio"></td>
+      <td>Print comments</td>
+    </tr>
+    <tr>
+      <td>
+	<input disabled="disabled" name="itype" value="isoebnf" type="radio"></td>
+      <td>ISO EBNF</td>
+      <td>defined by
+	<a href="http://standards.iso.org/ittf/PubliclyAvailableStandards/s026153_ISO_IEC_14977_1996%28E%29.zip">
+	<!--http://standards.iso.org/ittf/PubliclyAvailableStandards/index.html"-->
+	<!--http://isotc.iso.org/livelink/livelink/fetch/2000/2489/Ittf_Home/PubliclyAvailableStandards.htm"-->
+	ISO/IEC 14977 1996(E)</a> (zip-File) and in BSI 6154;<br>
+	<a href="http://www.cl.cam.ac.uk/%7Emgk25/iso-14977.pdf">final draft version
+	(SC22/N2249)</a>;
+	(<a href="http://standards.iso.org/ittf/PubliclyAvailableStandards/index.html">list
+	of public standards</a>);
+	</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+	<input name="itype" value="w3c" type="radio"></td>
+      <td><a href="http://homepages.uni-regensburg.de/%7Ebrf09510/syntax/w3c.ebnf.html">W3C-BNF</a></td>
+      <td>defined in <a href="http://www.w3.org/TR/REC-xml#sec-notation">Extensible
+	Markup<br>
+	Language (XML) 1.0 <br>
+	(Second Edition)</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+	<input disabled="disabled" name="itype" value="abnf" type="radio"></td>
+      <td>ABNF</td>
+      <td>defined in <a href="http://www.ietf.org/rfc/rfc2234.txt">RFC 2234</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+	<input disabled="disabled" name="itype" value="yacc" type="radio"></td>
+      <td>YACC/Bison input structure</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+	<input disabled="disabled" name="itype" value="XBNF" type="radio"></td>
+      <td>XBNF</td>
+      <td>defined in
+	<a href="http://www.csci.csusb.edu/dick/maths/intro_ebnf.html">Syntax
+	(XBNF)</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody></table>
+  <table>
+    <tbody><tr>
+      <td>
+	<input name="textsize" value="10" size="4" type="text"> Text size (pt)</td>
+      <td>
+	<input name="width" value="748" size="4" type="text"> Image width (pixel)</td>
+      <td>
+	<input name="height" value="1102" size="4" type="text"> Image height (pixel)</td>
+      <td>
+	<input name="magnification" value="1.0" size="4" type="text"> Magnification
+	of images (factor)</td>
+    </tr>
+  </tbody></table>
+  <p>
+  <input value="GenerateSyntaxdiagrams" type="submit">
+</p></form>
+<p>
+<a name="form">&nbsp;</a> Written by
+<a href="http://homepages.fh-regensburg.de/%7Ejof39108/index.html">Prof. Dr.
+Fritz Jobst</a> and
+<a href="http://www.uni-regensburg.de/EDV/kurs_info/brf09510/fb.html">Dipl.
+Math. Frank Braun</a>, Regensburg, Germany
+</p><p>
+Last change 4. Dec. 2013, Frank Braun,
+</p>
+<p>
+<a href="http://validator.w3.org/check/referer"><img src="Automatic%20Generation%20of%20Syntax%20Diagrams%20with%20a%20Given%20Grammar_files/valid-html401.png" alt="Valid HTML 4.01!" height="31" width="88"></a>
+<a href="http://www.uni-regensburg.de/impressum/index.html">Impressum</a>
+</p></body></html>
